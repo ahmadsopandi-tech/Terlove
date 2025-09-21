@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Untukmu, Nhaila ❤️</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: white;
+            overflow-x: hidden;
+        }
+        
+        /* Background & Overlay */
+        .background-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+        }
+        
+        .background-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            opacity: 0;
+            transition: opacity 2s ease-in-out;
+        }
+        
+        .background-slide.active {
+            opacity: 1;
+        }
+        
+        .background-slide:nth-child(1) {
+            background-image: url('https://z-cdn-media.chatglm.cn/files/f3cb4205-2999-4ba3-8589-fadc6d96045f_Gemini_Generated_Image_s98rc5s98rc5s98r.png?auth_key=1789963089-059b809e483b4385a57fdc0a2463bd1f-0-3c260b1f84e71b1a3e0a16a30fe6c00d');
+        }
+        
+        .background-slide:nth-child(2) {
+            background-image: url('https://z-cdn-media.chatglm.cn/files/f3cb4205-2999-4ba3-8589-fadc6d96045f_Gemini_Generated_Image_s98rc5s98rc5s98r.png?auth_key=1789963089-059b809e483b4385a57fdc0a2463bd1f-0-3c260b1f84e71b1a3e0a16a30fe6c00d');
+        }
+        
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.8) 0%, rgba(118, 75, 162, 0.8) 100%);
+            z-index: -1;
+        }
+        
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            z-index: 100;
+            padding: 15px 0;
+            transition: all 0.3s ease;
+        }
+        
+        nav.scrolled {
+            padding: 10px 0;
+            background: rgba(0, 0, 0, 0.5);
+        }
+        
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+        
+        .nav-logo {
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+        
+        .nav-menu {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-item {
+            margin: 0 15px;
+        }
+        
+        .nav-link {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .nav-link:hover {
+            color: #ff9ff3;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #ff9ff3;
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        
+        /* Sections */
+        section {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 80px 20px 50px;
+            text-align: center;
+        }
+        
+        /* Home Section */
+        #home {
+            position: relative;
+        }
+        
+        .home-content {
+            max-width: 800px;
+            z-index: 2;
+        }
+        
+        .home-title {
+            font-family: 'Dancing Script', cursive;
+            font-size: 4rem;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            animation: fadeInDown 1s ease;
+        }
+        
+        .home-message {
+            font-size: 1.5rem;
+            margin-bottom: 40px;
+            line-height: 1.6;
+            animation: fadeInUp 1s ease;
+        }
+        
+        .btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid white;
+            color: white;
+            padding: 12px 30px;
+            font-size: 1.1rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 500;
+            backdrop-filter: blur(10px);
+            text-decoration: none;
+            display: inline-block;
+            animation: fadeIn 1.5s ease;
+        }
+        
+        .btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* Pesan Section */
+        .pesan-content {
+            max-width: 700px;
+            z-index: 2;
+        }
+        
+        .section-title {
+            font-family: 'Dancing Script', cursive;
+            font-size: 3rem;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        
+        .pesan-text {
+            font-size: 1.3rem;
+            line-height: 1.8;
+            margin-bottom: 40px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            backdrop-filter: blur(5px);
+        }
+        
+        .heart-container {
+            margin-top: 30px;
+            width: 80px;
+            height: 80px;
+            animation: heartbeat 1.5s infinite;
+        }
+        
+        .heart {
+            background-color: #ff4458;
+            display: inline-block;
+            height: 50px;
+            position: relative;
+            transform: rotate(-45deg);
+            width: 50px;
+            margin: 20px auto;
+        }
+        
+        .heart:before,
+        .heart:after {
+            content: "";
+            background-color: #ff4458;
+            border-radius: 50%;
+            height: 50px;
+            position: absolute;
+            width: 50px;
+        }
+        
+        .heart:before {
+            top: -25px;
+            left: 0;
+        }
+        
+        .heart:after {
+            left: 25px;
+            top: 0;
+        }
+        
+        /* Mohon Maaf Section */
+        .maaf-content {
+            max-width: 700px;
+            z-index: 2;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 1s ease, transform 1s ease;
+        }
+        
+        .maaf-content.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .maaf-text {
+            font-size: 1.3rem;
+            line-height: 1.8;
+            font-style: italic;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            backdrop-filter: blur(5px);
+        }
+        
+        /* Janji Section */
+        .janji-content {
+            max-width: 800px;
+            z-index: 2;
+        }
+        
+        .janji-list {
+            list-style: none;
+            margin-top: 30px;
+        }
+        
+        .janji-item {
+            margin: 15px 0;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            backdrop-filter: blur(5px);
+            text-align: left;
+            opacity: 0;
+            transform: translateX(-20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+        
+        .janji-item.show {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        
+        .janji-item i {
+            color: #ff9ff3;
+            margin-right: 10px;
+        }
+        
+        /* Animations */
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        
+        @keyframes heartbeat {
+            0% { transform: scale(1) rotate(-45deg); }
+            25% { transform: scale(1.1) rotate(-45deg); }
+            50% { transform: scale(1) rotate(-45deg); }
+            75% { transform: scale(1.15) rotate(-45deg); }
+            100% { transform: scale(1) rotate(-45deg); }
+        }
+        
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            .nav-menu {
+                flex-direction: column;
+                position: fixed;
+                top: 70px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 70px);
+                background: rgba(0, 0, 0, 0.7);
+                z-index: 100;
+                justify-content: center;
+                align-items: center;
+                transition: 0.3s;
+            }
+            
+            .nav-menu.active {
+                left: 0;
+            }
+            
+            .nav-item {
+                margin: 15px 0;
+            }
+            
+            .hamburger {
+                display: block;
+                cursor: pointer;
+            }
+            
+            .hamburger span {
+                display: block;
+                width: 25px;
+                height: 3px;
+                margin: 5px 0;
+                background: white;
+                transition: 0.3s;
+            }
+            
+            .home-title {
+                font-size: 3rem;
+            }
+            
+            .home-message {
+                font-size: 1.2rem;
+            }
+            
+            .section-title {
+                font-size: 2.5rem;
+            }
+            
+            .pesan-text, .maaf-text {
+                font-size: 1.1rem;
+            }
+        }
+        
+        @media (min-width: 769px) {
+            .hamburger {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Background & Overlay -->
+    <div class="background-container">
+        <div class="background-slide active"></div>
+        <div class="background-slide"></div>
+    </div>
+    <div class="overlay"></div>
+    
+    <!-- Navigation -->
+    <nav id="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">Untukmu, Nhaila ❤️</div>
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="#home" class="nav-link">Home</a></li>
+                <li class="nav-item"><a href="#pesan" class="nav-link">Pesan</a></li>
+                <li class="nav-item"><a href="#maaf" class="nav-link">Mohon Maaf</a></li>
+                <li class="nav-item"><a href="#janji" class="nav-link">Janji Ahmad</a></li>
+            </ul>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Home Section -->
+    <section id="home">
+        <div class="home-content">
+            <h1 class="home-title">Untukmu, Nhaila ❤️</h1>
+            <p class="home-message">Hai Nhaila, ini Ahmad. Aku cuma mau bilang… aku selalu sayang sama kamu.</p>
+            <a href="#pesan" class="btn">Buka Pesan</a>
+        </div>
+    </section>
+    
+    <!-- Pesan Section -->
+    <section id="pesan">
+        <div class="pesan-content">
+            <h2 class="section-title">Pesan Cinta</h2>
+            <div class="pesan-text">
+                "Bersamamu adalah bagian terbaik dari hidupku. Semoga kita terus saling menjaga, saling sayang, dan saling kuat. — Ahmad"
+            </div>
+            <div class="heart-container">
+                <div class="heart"></div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Mohon Maaf Section -->
+    <section id="maaf">
+        <div class="maaf-content">
+            <h2 class="section-title">Mohon Maaf</h2>
+            <div class="maaf-text">
+                "Maafkan Ahmad yang belum bisa jadi yang terbaik, yang belum bisa selalu sesuai sama apa yang kamu inginkan. Tapi percaya sama aku, aku bakal terus berusaha, belajar, dan berubah jadi lebih baik buat kita. Karena kamu adalah alasanku berjuang."
+            </div>
+        </div>
+    </section>
+    
+    <!-- Janji Section -->
+    <section id="janji">
+        <div class="janji-content">
+            <h2 class="section-title">Janji Ahmad</h2>
+            <ul class="janji-list">
+                <li class="janji-item"><i class="fas fa-heart"></i> Janji nggak bakal bikin kamu nunggu lama lagi.</li>
+                <li class="janji-item"><i class="fas fa-heart"></i> Janji bakal dengerin kamu, bahkan kalau ceritanya se-random apapun.</li>
+                <li class="janji-item"><i class="fas fa-heart"></i> Janji bakal tetep sayang sama kamu, even kalau aku lagi nolep + bad mood.</li>
+                <li class="janji-item"><i class="fas fa-heart"></i> Janji kalau kamu bete, aku bakal jadi badut buat bikin kamu ketawa.</li>
+                <li class="janji-item"><i class="fas fa-heart"></i> Pokoknya janji terus jadi Ahmad yang nggak pernah ninggalin kamu.</li>
+            </ul>
+        </div>
+    </section>
+    
+    <script>
+        // Background slideshow
+        const slides = document.querySelectorAll('.background-slide');
+        let currentSlide = 0;
+        
+        function nextSlide() {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (currentSlide + 1) % slides.length;
+            slides[currentSlide].classList.add('active');
+        }
+        
+        setInterval(nextSlide, 5000);
+        
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+        
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                const targetSection = document.querySelector(targetId);
+                
+                window.scrollTo({
+                    top: targetSection.offsetTop - 70,
+                    behavior: 'smooth'
+                });
+                
+                // Close mobile menu if open
+                const navMenu = document.querySelector('.nav-menu');
+                if (navMenu.classList.contains('active')) {
+                    navMenu.classList.remove('active');
+                }
+            });
+        });
+        
+        // Mobile menu toggle
+        const hamburger = document.querySelector('.hamburger');
+        const navMenu = document.querySelector('.nav-menu');
+        
+        hamburger.addEventListener('click', function() {
+            navMenu.classList.toggle('active');
+        });
+        
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+        
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    if (entry.target.classList.contains('maaf-content')) {
+                        entry.target.classList.add('show');
+                    }
+                    
+                    if (entry.target.classList.contains('janji-item')) {
+                        entry.target.classList.add('show');
+                    }
+                }
+            });
+        }, observerOptions);
+        
+        // Observe elements
+        const maafContent = document.querySelector('.maaf-content');
+        if (maafContent) {
+            observer.observe(maafContent);
+        }
+        
+        const janjiItems = document.querySelectorAll('.janji-item');
+        janjiItems.forEach((item, index) => {
+            // Add delay for staggered animation
+            item.style.transitionDelay = `${index * 0.2}s`;
+            observer.observe(item);
+        });
+    </script>
+</body>
+</html>
